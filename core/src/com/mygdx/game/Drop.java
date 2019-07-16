@@ -53,7 +53,7 @@ public class Drop extends ApplicationAdapter {
 
         // create a Rectangle to logically represent the bucket
         bucket = new Rectangle();
-        bucket.x = 800 / 2 - 64 / 2; // center the bucket horizontally
+        bucket.x = WIDTH / 2 - 64 / 2; // center the bucket horizontally
         bucket.y = 20; // bottom left corner of the bucket is 20 pixels above the bottom screen edge
         bucket.width = 64;
         bucket.height = 64;
@@ -65,8 +65,8 @@ public class Drop extends ApplicationAdapter {
 
     private void spawnRaindrop() {
         Rectangle raindrop = new Rectangle();
-        raindrop.x = MathUtils.random(0, 800-64);
-        raindrop.y = 480;
+        raindrop.x = MathUtils.random(0, WIDTH-64);
+        raindrop.y = HEIGHT;
         raindrop.width = 64;
         raindrop.height = 64;
         raindrops.add(raindrop);
@@ -110,7 +110,7 @@ public class Drop extends ApplicationAdapter {
 
         // make sure the bucket stays within the screen bounds
         if(bucket.x < 0) bucket.x = 0;
-        if(bucket.x > 800 - 64) bucket.x = 800 - 64;
+        if(bucket.x > WIDTH - 64) bucket.x = WIDTH - 64;
 
         // check if we need to create a new raindrop
         if(TimeUtils.nanoTime() - lastDropTime > 1000000000) spawnRaindrop();
