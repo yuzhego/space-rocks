@@ -29,8 +29,8 @@ public class Drop extends ApplicationAdapter {
     private Array<Rectangle> raindrops;
     private long lastDropTime;
 
-    private final float WIDTH = 800;
-    private final float HEIGHT = 480;
+    public static final float WIDTH = 480;
+    public static final float HEIGHT = 800;
 
     @Override
     public void create() {
