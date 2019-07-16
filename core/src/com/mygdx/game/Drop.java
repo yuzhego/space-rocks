@@ -17,6 +17,7 @@ import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.badlogic.gdx.utils.TimeUtils;
 
+
 public class Drop extends ApplicationAdapter {
     private Texture dropImage;
     private Texture bucketImage;
@@ -27,6 +28,9 @@ public class Drop extends ApplicationAdapter {
     private Rectangle bucket;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
+
+    private final float WIDTH = 800;
+    private final float HEIGHT = 480;
 
     @Override
     public void create() {
@@ -44,7 +48,7 @@ public class Drop extends ApplicationAdapter {
 
         // create the camera and the SpriteBatch
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, 800, 480);
+        camera.setToOrtho(false, WIDTH, HEIGHT);
         batch = new SpriteBatch();
 
         // create a Rectangle to logically represent the bucket
