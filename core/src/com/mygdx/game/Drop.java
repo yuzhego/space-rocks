@@ -21,6 +21,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 public class Drop extends ApplicationAdapter {
     private Texture dropImage;
     private Texture bucketImage;
+    private Texture backgroundImage;
     private Sound dropSound;
     private Music rainMusic;
     private SpriteBatch batch;
@@ -28,6 +29,7 @@ public class Drop extends ApplicationAdapter {
     private Rectangle bucket;
     private Array<Rectangle> raindrops;
     private long lastDropTime;
+    private float backgroundY = 0;
 
     public static final float WIDTH = 480;
     public static final float HEIGHT = 800;
@@ -35,8 +37,9 @@ public class Drop extends ApplicationAdapter {
     @Override
     public void create() {
         // load the images for the droplet and the bucket, 64x64 pixels each
-        dropImage = new Texture(Gdx.files.internal("droplet.png"));
+        dropImage = new Texture(Gdx.files.internal("rock.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
+        backgroundImage = new Texture(Gdx.files.internal("background.jpg"));
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -68,7 +71,9 @@ public class Drop extends ApplicationAdapter {
         raindrop.x = MathUtils.random(0, WIDTH-64);
         raindrop.y = HEIGHT;
         raindrop.width = 64;
+        // raindrop.width = 20;
         raindrop.height = 64;
+        // raindrop.height = 20;
         raindrops.add(raindrop);
         lastDropTime = TimeUtils.nanoTime();
     }
@@ -80,6 +85,7 @@ public class Drop extends ApplicationAdapter {
         // blue and alpha component in the range [0,1]
         // of the color to be used to clear the screen.
         Gdx.gl.glClearColor(0, 0, 0.2f, 1);
+
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         // tell the camera to update its matrices.
@@ -91,7 +97,12 @@ public class Drop extends ApplicationAdapter {
 
         // begin a new batch and draw the bucket and
         // all drops
+
         batch.begin();
+
+        batch.draw(backgroundImage, 0, backgroundY);
+        batch.draw(backgroundImage, 0, backgroundImage.getHeight() + backgroundY);
+
         batch.draw(bucketImage, bucket.x, bucket.y);
         for(Rectangle raindrop: raindrops) {
             batch.draw(dropImage, raindrop.x, raindrop.y);
@@ -118,6 +129,11 @@ public class Drop extends ApplicationAdapter {
         // move the raindrops, remove any that are beneath the bottom edge of
         // the screen or that hit the bucket. In the latter case we play back
         // a sound effect as well.
+        backgroundY -= 200 * Gdx.graphics.getDeltaTime();
+        if (backgroundY < -HEIGHT){
+            backgroundY = 0;
+        }
+
         for (Iterator<Rectangle> iter = raindrops.iterator(); iter.hasNext(); ) {
             Rectangle raindrop = iter.next();
             raindrop.y -= 200 * Gdx.graphics.getDeltaTime();
