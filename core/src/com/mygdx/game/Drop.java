@@ -22,6 +22,7 @@ public class Drop extends ApplicationAdapter {
     private Texture dropImage;
     private Texture bucketImage;
     private Texture backgroundImage;
+    private Texture heartImage;
     private Sound dropSound;
     private Music rainMusic;
     private SpriteBatch batch;
@@ -30,6 +31,7 @@ public class Drop extends ApplicationAdapter {
     private Array<Rectangle> raindrops;
     private long lastDropTime;
     private float backgroundY = 0;
+    private int lives = 5;
 
     public static final float WIDTH = 480;
     public static final float HEIGHT = 800;
@@ -40,6 +42,7 @@ public class Drop extends ApplicationAdapter {
         dropImage = new Texture(Gdx.files.internal("rock.png"));
         bucketImage = new Texture(Gdx.files.internal("bucket.png"));
         backgroundImage = new Texture(Gdx.files.internal("background.jpg"));
+        heartImage = new Texture(Gdx.files.internal("heart.png"));
 
         // load the drop sound effect and the rain background "music"
         dropSound = Gdx.audio.newSound(Gdx.files.internal("drop.wav"));
@@ -107,6 +110,11 @@ public class Drop extends ApplicationAdapter {
         for(Rectangle raindrop: raindrops) {
             batch.draw(dropImage, raindrop.x, raindrop.y);
         }
+
+        for(int i = 0; i < lives; i++){
+            batch.draw(heartImage, heartImage.getWidth(), HEIGHT - 100 - i * 25);
+        }
+
         batch.end();
 
         // process user input
@@ -140,6 +148,15 @@ public class Drop extends ApplicationAdapter {
             if(raindrop.y + 64 < 0) iter.remove();
             if(raindrop.overlaps(bucket)) {
                 dropSound.play();
+                boolean stopTheGame = false;
+
+                lives--;
+                if (lives == 0){
+                    
+                    stopTheGame = true;
+                }
+
+
                 iter.remove();
             }
         }
