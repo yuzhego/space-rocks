@@ -152,7 +152,7 @@ public class Drop extends ApplicationAdapter {
 
                 lives--;
                 if (lives == 0){
-                    
+
                     stopTheGame = true;
                 }
 
